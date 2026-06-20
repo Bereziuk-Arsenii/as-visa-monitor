@@ -15,3 +15,4 @@ Used:
 
 User enters its personal data, which sends to spring boot service, which saves information about user in PostgreSQL database.
 Server constantly monitors AS VISA website with using Playwright library for finding free slots.
+When slot is finded server passes reCAPTCHA with using 2Captcha service.
