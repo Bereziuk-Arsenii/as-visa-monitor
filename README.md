@@ -12,3 +12,5 @@ Used:
     Telegram API
     Playwright (for monitoring website)
     2Captcha (service to pass reCAPTCHA)
+
+User enters its personal data, which sends to spring boot service, which saves information about user in PostgreSQL database.
