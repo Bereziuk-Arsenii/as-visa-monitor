@@ -13,5 +13,3 @@ Used:
     Playwright (for monitoring website)
     2Captcha (service to pass reCAPTCHA)
 
-User enters its personal data, which sends to spring boot service, which saves information about user in PostgreSQL database.
-Server constantly monitors AS VISA website for finding free slots with using Playwright library.
