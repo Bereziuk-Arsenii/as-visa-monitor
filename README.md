@@ -12,4 +12,3 @@ Used:
     Telegram API
     Playwright (for monitoring website)
     2Captcha (service to pass reCAPTCHA)
-
