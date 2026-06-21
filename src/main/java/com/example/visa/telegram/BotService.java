@@ -4,6 +4,7 @@ import com.example.visa.db.UserProfileEntity;
 import com.example.visa.db.UserProfileRepository;
 import com.example.visa.telegram.utils.BotState;
 import com.example.visa.telegram.utils.Utils;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -29,7 +30,7 @@ public class BotService {
     public String handleIdle(Long chatId) {
         UserProfileEntity entity = new UserProfileEntity();
         entity.setChatId(chatId);
-        entity.setBotState(BotState.AWAITING_FIRST_NAME);
+        entity.setBotState(BotState.AWAITING_NAME);
         repository.save(entity);
 
         return  """
@@ -39,48 +40,48 @@ public class BotService {
                 """;
     }
 
-    public String handleFirstName(Long chatId, String input) {
+    public String handleName(Long chatId, String input) {
 
         if (Utils.validateName(input)) {
             return "Invalid first name. Try again please.";
         }
 
         UserProfileEntity entity = repository.findByChatId(chatId).orElseThrow();
-        entity.setFirstName(input);
-        entity.setBotState(BotState.AWAITING_LAST_NAME);
+        entity.setName(input);
+        entity.setBotState(BotState.AWAITING_SURNAME);
         repository.save(entity);
 
         return "Enter your last name: ";
     }
 
-    public String handleLastName(Long chatId, String input) {
+    public String handleSurName(Long chatId, String input) {
 
         if (Utils.validateName(input)) {
             return "Invalid last name. Try again please.";
         }
 
         UserProfileEntity entity = repository.findByChatId(chatId).orElseThrow();
-        entity.setLastName(input);
-        entity.setBotState(BotState.AWAITING_BIRTHDATE);
+        entity.setSurname(input);
+        entity.setBotState(BotState.AWAITING_BIRTH_YEAR);
         repository.save(entity);
 
         return "Enter your birthdate in format DD.MM.YYYY: ";
     }
 
-    public String handleBirthday(Long chatId, String input) {
+    public String handleYear(Long chatId, String input) {
 
         if (!Utils.validateDate(input)) {
             return "Invalid date format. Enter it in this way DD.MM.YYYY and try again please.";
         }
 
         UserProfileEntity entity = repository.findByChatId(chatId).orElseThrow();
-        entity.setBirthDate(LocalDate.parse(input, DateTimeFormatter.ofPattern("dd.MM.yyyy")));
+        entity.setBirthDate(Integer.parseInt(input));
         entity.setBotState(BotState.AWAITING_FOR_USER_ACCEPTION);
         repository.save(entity);
 
         return "Please, check carefully is everything is correct:" +
-                "\nFirst name: " + entity.getFirstName() +
-                "\nLast name: " + entity.getLastName() +
+                "\nFirst name: " + entity.getName() +
+                "\nLast name: " + entity.getSurname() +
                 "\nBirth date: " + input;
     }
 
@@ -98,7 +99,7 @@ public class BotService {
 
     public String handleNoOption(Long chatId) {
         UserProfileEntity entity = repository.findByChatId(chatId).orElseThrow();
-        entity.setBotState(BotState.AWAITING_FIRST_NAME);
+        entity.setBotState(BotState.AWAITING_NAME);
         repository.save(entity);
 
         return "Okay, let's try again." +
@@ -121,5 +122,33 @@ public class BotService {
         inlineKeyboardMarkup.setKeyboard(List.of(row1));
 
         return inlineKeyboardMarkup;
+    }
+
+    public @NonNull String handleTravelPurpose(Long chatId, String input) {
+        return null;
+    }
+
+    public @NonNull String handleTravelDate(Long chatId, String input) {
+        return "";
+    }
+
+    public @NonNull String handlePasswordNumber(Long chatId, String input) {
+        return "";
+    }
+
+    public @NonNull String handleTurkishIdentificationNumber(Long chatId, String input) {
+        return "";
+    }
+
+    public @NonNull String handlePhoneNumber(Long chatId, String input) {
+        return "";
+    }
+
+    public @NonNull String handleEmail(Long chatId, String input) {
+        return "";
+    }
+
+    public @NonNull String handleUserAcception(Long chatId, String input) {
+        return "";
     }
 }

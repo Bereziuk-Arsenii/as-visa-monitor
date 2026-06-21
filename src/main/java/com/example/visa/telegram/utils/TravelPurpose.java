@@ -1,0 +1,19 @@
+package com.example.visa.telegram.utils;
+
+public enum TravelPurpose {
+    TOURIST,
+    VOLUNTARY_SERVICE,
+    CULTURAL,
+    CONFERENCE,
+    SPORT,
+    FAMILY_REUNION,
+    OFFICIAL,
+    VISITING_FAMILY_OR_FRIENDS,
+    WORK_STUDY,
+    PROFITABLE_ACTIVITIES,
+    WORK_COMMERTIAL,
+    EDUCATION,
+    TRANSIT,
+    HEALTH_REASONS,
+    OTHER
+}

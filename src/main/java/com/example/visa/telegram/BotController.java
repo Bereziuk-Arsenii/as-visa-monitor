@@ -37,15 +37,36 @@ public class BotController extends AbilityBot {
                 case IDLE:
                     message.setText(botService.handleIdle(chatId));
                     break;
-                case AWAITING_FIRST_NAME:
-                    message.setText(botService.handleFirstName(chatId, input));
+                case AWAITING_TRAVEL_PURPOSE:
+                    message.setText(botService.handleTravelPurpose(chatId, input));
                     break;
-                case AWAITING_LAST_NAME:
-                    message.setText(botService.handleLastName(chatId, input));
+                case AWAITING_TRAVEL_DATE:
+                    message.setText(botService.handleTravelDate(chatId, input));
                     break;
-                case AWAITING_BIRTHDATE:
-                    message.setText(botService.handleBirthday(chatId, input));
+                case AWAITING_PASSWORD_NUMBER:
+                    message.setText(botService.handlePasswordNumber(chatId, input));
+                    break;
+                case AWAITING_NAME:
+                    message.setText(botService.handleName(chatId, input));
+                    break;
+                case AWAITING_SURNAME:
+                    message.setText(botService.handleSurName(chatId, input));
+                    break;
+                case AWAITING_TURKISH_IDENTIFICATION_NUMBER:
+                    message.setText(botService.handleTurkishIdentificationNumber(chatId, input));
+                    break;
+                case AWAITING_BIRTH_YEAR:
+                    message.setText(botService.handleYear(chatId, input));
                     message.setReplyMarkup(botService.getKeyboardAfterBirthdate());
+                    break;
+                case AWAITING_PHONE_NUMBER:
+                    message.setText(botService.handlePhoneNumber(chatId, input));
+                    break;
+                case AWAITING_EMAIL:
+                    message.setText(botService.handleEmail(chatId, input));
+                    break;
+                case AWAITING_FOR_USER_ACCEPTION:
+                    message.setText(botService.handleUserAcception(chatId, input));
                     break;
                 case DONE:
                     return;
