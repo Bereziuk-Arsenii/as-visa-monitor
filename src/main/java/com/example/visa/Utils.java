@@ -1,8 +1,10 @@
-package com.example.visa.telegram.utils;
+package com.example.visa;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Locale;
 
 public interface Utils {
     static boolean validateName(String name) {
@@ -20,4 +22,9 @@ public interface Utils {
             return false;
         }
     }
+
+    static String capitalize(String str) {
+        return str.substring(0, 1).toUpperCase() + str.substring(1).toLowerCase();
+    }
+
 }

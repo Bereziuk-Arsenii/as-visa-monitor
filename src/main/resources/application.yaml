@@ -27,3 +27,7 @@ site:
   url: ${SITE_URL}
   siteKey: ${SITE_KEY}
   captchaApiKey: ${CAPTCHA_API_KEY}
+
+monitoring:
+  threads: 3
+  repeat-interval: 300000

@@ -1,4 +1,4 @@
-package com.example.visa.security;
+package com.example.visa.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

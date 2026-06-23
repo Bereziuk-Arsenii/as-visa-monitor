@@ -3,7 +3,7 @@ package com.example.visa.telegram;
 import com.example.visa.db.UserProfileEntity;
 import com.example.visa.db.UserProfileRepository;
 import com.example.visa.telegram.utils.BotState;
-import com.example.visa.telegram.utils.Utils;
+import com.example.visa.Utils;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -11,8 +11,6 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -75,7 +73,7 @@ public class BotService {
         }
 
         UserProfileEntity entity = repository.findByChatId(chatId).orElseThrow();
-        entity.setBirthDate(Integer.parseInt(input));
+        entity.setBirthYear(Integer.parseInt(input));
         entity.setBotState(BotState.AWAITING_FOR_USER_ACCEPTION);
         repository.save(entity);
 

@@ -1,5 +1,6 @@
 package com.example.visa.telegram;
 
+import com.example.visa.db.UserProfileEntity;
 import org.mapdb.DBMaker;
 import org.springframework.stereotype.Component;
 import org.telegram.abilitybots.api.bot.AbilityBot;
@@ -89,5 +90,14 @@ public class BotController extends AbilityBot {
         try {
             sender.execute(message);
         } catch (TelegramApiException ignored) {}
+    }
+
+    public void sendSuccessNotification(UserProfileEntity user) {
+        silent.send(
+          "Congratulations!" +
+          "\nYour applience sucessfully submited!" +
+          "\nNearest appointment date is: " + user.getAppointmentDate() +
+          "\n Thank you for using our service!!!"
+        , user.getChatId());
     }
 }

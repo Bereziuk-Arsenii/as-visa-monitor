@@ -24,6 +24,9 @@ public class UserProfileEntity {
     @Column(name = "travel_date")
     private LocalDate travelDate;
 
+    @Column(name = "appointment_date")
+    private LocalDate appointmentDate;
+
     @Column(name = "password_number")
     private String passwordNumber;
 
@@ -37,7 +40,7 @@ public class UserProfileEntity {
     private String tcId;
 
     @Column(name = "birth_year")
-    private int birthDate;
+    private int birthYear;
 
     @Column(name = "phone_number")
     private String phoneNumber;
