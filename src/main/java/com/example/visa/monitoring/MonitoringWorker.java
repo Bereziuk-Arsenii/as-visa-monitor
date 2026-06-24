@@ -6,10 +6,8 @@ import com.example.visa.Utils;
 import com.example.visa.db.UserProfileEntity;
 import com.example.visa.db.UserProfileRepository;
 import com.example.visa.telegram.BotController;
-import com.microsoft.playwright.Browser;
-import com.microsoft.playwright.Locator;
-import com.microsoft.playwright.Page;
-import com.microsoft.playwright.Playwright;
+import com.example.visa.telegram.utils.BotState;
+import com.microsoft.playwright.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
@@ -38,9 +36,11 @@ public class MonitoringWorker {
             page.navigate(siteConfig.getUrl());
 
             if (checkSlot(page, user)) {
-                handleFreeSlot(page, user);
-                botController.sendSuccessNotification(user);
-                userProfileRepository.delete(user);
+                botController.notifyAboutFreeSlot(user);
+                byte[] screenshot = handleFreeSlot(page, user);
+                botController.sendSuccessNotification(user, screenshot);
+                user.setBotState(BotState.SUBMITTED);
+                userProfileRepository.save(user);
                 page.waitForTimeout(3000);
             }
         } catch (Exception e) {
@@ -50,6 +50,7 @@ public class MonitoringWorker {
     }
 
     private boolean checkSlot(Page page, UserProfileEntity user) {
+        log.info("Checking slot for user {}", user.getChatId());
         LocalDate travelDate = user.getTravelDate();
 
         int day = travelDate.getDayOfMonth();
@@ -66,10 +67,13 @@ public class MonitoringWorker {
         page.locator("th[class='datepicker-switch']").and(page.getByText(currentYear+"", new Page.GetByTextOptions().setExact(true))).click();
         page.locator("span[class = 'year']").and(page.getByText(year + "")).click();
         page.locator("span[class = 'month']").and(page.getByText(month.substring(0, 3))).click();
-        page.locator("td[class = 'day']").and(page.getByText(day + "")).click();
+        page.locator("td.day:not(.old):not(.new)")
+                .and(page.getByText(String.valueOf(day), new Page.GetByTextOptions().setExact(true)))
+                .click();
 
+        page.waitForTimeout(500);
         Locator appointmentInput = page.locator("input[id='datepicker']");
-        appointmentInput.click();
+        appointmentInput.click(new Locator.ClickOptions().setForce(true));
 
         Locator appointmentDiv = page.locator("div[class='datepicker-days']");
         Locator appointmentCalendar = appointmentDiv.locator("table[class='table-condensed']");
@@ -88,7 +92,7 @@ public class MonitoringWorker {
         if (availableDays.count() > 0) {
             availableDays.first().click();
             saveFoundDate(page, appointmentInput, user);
-            log.info("Avaliable appointment date for user {}", user.getChatId());
+            log.info("Available appointment date for user {}", user.getChatId());
             return true;
         }
 
@@ -108,13 +112,13 @@ public class MonitoringWorker {
         }
     }
 
-    private void handleFreeSlot(Page page, UserProfileEntity user) {
+    private byte[] handleFreeSlot(Page page, UserProfileEntity user) {
         page.locator("span[id='select2-TravelSubject-container']").click();
         page.locator("li[class='select2-results__option']")
                 .and(page.getByText(user.getTravelPurpose().getValue())).click();
 
         Locator passwordInput = page.locator("input[name='PassaportNumber']");
-        passwordInput.fill(user.getPasswordNumber());
+        passwordInput.fill(user.getPassportNumber());
 
         Locator nameInput = page.locator("input[name='Name']");
         nameInput.fill(user.getName());
@@ -138,6 +142,12 @@ public class MonitoringWorker {
                 .and(page.getByText("Make an appointment"));
         makeAnAppointmentBtn.click();
 
+        page.waitForTimeout(500);
+        Locator yesBtn = page.locator("button.swal2-confirm").and(page.getByText("Yes"));
+        yesBtn.click();
         log.info("USER {} WAS SUBMITTED", user.getChatId());
+
+        page.waitForTimeout(5000);
+        return page.screenshot();
     }
 }

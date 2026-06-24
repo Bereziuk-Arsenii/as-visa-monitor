@@ -27,8 +27,8 @@ public class UserProfileEntity {
     @Column(name = "appointment_date")
     private LocalDate appointmentDate;
 
-    @Column(name = "password_number")
-    private String passwordNumber;
+    @Column(name = "passport_number")
+    private String passportNumber;
 
     @Column(name = "name")
     private String name = "";

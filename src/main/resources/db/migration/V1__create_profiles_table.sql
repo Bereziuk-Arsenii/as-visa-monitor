@@ -3,7 +3,7 @@ CREATE TABLE profiles (
   travel_purpose TEXT,
   travel_date DATE,
   appointment_date DATE,
-  password_number TEXT,
+  passport_number TEXT,
   name TEXT,
   surname TEXT,
   tc_id TEXT,

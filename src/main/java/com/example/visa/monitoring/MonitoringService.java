@@ -14,9 +14,9 @@ public class MonitoringService {
     private final MonitoringWorker monitoringWorker;
     private final UserProfileRepository userProfileRepository;
 
-    @Scheduled(fixedDelay = 120000) // 2 min
+    @Scheduled(fixedDelay = 60_000) // 1 min
     public void runParallelChecks() {
-        List<UserProfileEntity> userProfiles = userProfileRepository.findByBotState(BotState.DONE);
+        List<UserProfileEntity> userProfiles = userProfileRepository.findByBotState(BotState.READY_FOR_APPLICATION);
 
         if (userProfiles.isEmpty()) {
             return;
