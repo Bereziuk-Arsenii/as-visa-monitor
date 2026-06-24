@@ -1,7 +1,14 @@
 CREATE TABLE profiles (
-    chat_id BIGINT PRIMARY KEY,
-    first_name TEXT NOT NULL,
-    last_name TEXT NOT NULL,
-    birthdate DATE NOT NULL,
-    bot_state TEXT NOT NULL
+  chat_id BIGINT PRIMARY KEY,
+  travel_purpose TEXT,
+  travel_date DATE,
+  appointment_date DATE,
+  passport_number TEXT,
+  name TEXT,
+  surname TEXT,
+  tc_id TEXT,
+  birth_year INT,
+  phone_number TEXT,
+  email TEXT,
+  bot_state TEXT
 );

@@ -1,6 +1,7 @@
 package com.example.visa.db;
 
 import com.example.visa.telegram.utils.BotState;
+import com.example.visa.telegram.utils.TravelPurpose;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,19 +13,40 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "profiles")
 public class UserProfileEntity {
-
     @Id
     @Column(name = "chat_id")
     private Long chatId;
 
-    @Column(nullable = false, name = "first_name")
-    private String firstName = "";
+    @Enumerated(EnumType.STRING)
+    @Column(name = "travel_purpose")
+    private TravelPurpose travelPurpose;
 
-    @Column(nullable = false, name = "last_name")
-    private String lastName = "";
+    @Column(name = "travel_date")
+    private LocalDate travelDate;
 
-    @Column(nullable = false, name = "birthdate")
-    private LocalDate birthDate = LocalDate.now();
+    @Column(name = "appointment_date")
+    private LocalDate appointmentDate;
+
+    @Column(name = "passport_number")
+    private String passportNumber;
+
+    @Column(name = "name")
+    private String name = "";
+
+    @Column(name = "surname")
+    private String surname;
+
+    @Column(name = "tc_id")
+    private String tcId;
+
+    @Column(name = "birth_year")
+    private int birthYear;
+
+    @Column(name = "phone_number")
+    private String phoneNumber;
+
+    @Column(name = "email")
+    private String email;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, name = "bot_state")
