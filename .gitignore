@@ -18,7 +18,6 @@ target/
 *.iws
 *.iml
 *.ipr
-src/main/resources/db/migration/V2__insert_ali_profile.sql
 
 ### NetBeans ###
 /nbproject/private/
